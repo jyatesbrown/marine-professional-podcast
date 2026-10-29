@@ -32,6 +32,13 @@ Alex: Four hundred eighty volts.
     assert len(notes) == 2
 
 
+def test_importer_blank_line_blocks_become_sections():
+    text = "TITLE LINE\n\nALEX: One.\nMORGAN: Two.\n\nALEX: Three.\n"
+    turns, notes = parse_script(text, ["alex", "morgan"])
+    assert [t.section for t in turns] == ["Part 1", "Part 1", "Part 2"]
+    assert len(notes) == 1
+
+
 def test_validation_flags_repetition():
     ep = sample_episode(3)
     ep.dialogue[2].text = ep.dialogue[1].text
