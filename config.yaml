@@ -4,15 +4,15 @@ podcast:
 
 voices:
   alex:
-    voice_id: ""          # paste the voice ID you chose in ElevenLabs (Voices -> ... -> Copy voice ID)
+    voice_id: "56bWURjYFHyYyVf490Dp"  # Emma (female, Australian)
     role: "Marine Engineering Specialist"
   morgan:
-    voice_id: ""
+    voice_id: "jqcCZkN6Knx8BJ5TBdYR"  # Zara - The Warm, Real-World Conversationalist (female, American)
     role: "Marine Science and Operations Specialist"
 
 audio:
   format: "mp3"
-  quality: "high"         # standard = mp3_44100_128 (all plans); high = mp3_44100_192 (Creator plan or above)
+  quality: "standard"       # standard = mp3_44100_128 (all plans); high = mp3_44100_192 (Creator plan or above)
   gap_ms: 350             # silence inserted between generated segments
   loudness_lufs: -16      # podcast loudness target applied to the final file
 
