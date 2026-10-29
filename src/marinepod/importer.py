@@ -21,14 +21,26 @@ def parse_script(text: str, speakers: list[str]) -> tuple[list[Turn], list[str]]
     turns: list[Turn] = []
     notes: list[str] = []
     section = None
+    has_headings = any(_HEADING.match(raw.strip()) for raw in text.splitlines())
+    block = 1
+    pending_break = False
     for n, raw in enumerate(text.splitlines(), 1):
         line = raw.strip()
-        if not line or set(line) <= {"-", "*", "_", "="}:
+        if not line:
+            pending_break = bool(turns)
+            continue
+        if set(line) <= {"-", "*", "_", "="}:
             continue
         h = _HEADING.match(line)
         if h:
             section = (h.group(1) or h.group(2) or "").strip() or section
             continue
+        if not has_headings:
+            # Scripts without headings: blank-line-separated blocks become numbered sections.
+            if pending_break:
+                block += 1
+            pending_break = False
+            section = f"Part {block}"
         m = _LABEL.match(line)
         if m and m.group(1).lower() in wanted:
             body = m.group(2).strip()

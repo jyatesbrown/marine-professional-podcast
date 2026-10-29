@@ -43,3 +43,9 @@ A 15-minute two-host episode at about 150 words per minute is roughly 2,250 word
 4. Use the dashboard's free regenerations (2 per generation, dashboard only) for one-off fixes, instead of API calls.
 5. For daily production, an annual Pro plan includes two free months.
 6. `cost.limits` in `config.yaml` caps credits per run, per month (counted from the ledger) and segments per run.
+
+## Observed usage
+
+- Episode 01 pilot (2026-10-29, Creator plan, `eleven_v4`): 15,687 characters across 11 requests deducted **6,905 credits** (account counter delta), about 0.44 credits per character. The voice sample deducted 246 credits for 558 characters.
+- The estimator still assumes 1 credit per character, so dry-run figures and spending limits are a conservative upper bound. `mpod render` now records the account's credit delta as the episode's actual cost.
+- At the observed rate, 30 episodes/month is about 210k credits: above Creator (121k), within Pro (600k).

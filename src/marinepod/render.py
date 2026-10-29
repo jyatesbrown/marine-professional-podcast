@@ -184,7 +184,7 @@ def generate_segments(plan: Plan, cfg: Config, client: ElevenLabsClient, ledger:
 
 
 def finish_episode(plan: Plan, cfg: Config, files: list[Path], out_path: Path, ledger: Ledger,
-                   episode_file: Path | None) -> dict:
+                   episode_file: Path | None, account_credits: int | None = None) -> dict:
     bitrate = int(cfg.audio.output_format.rsplit("_", 1)[1])
     audio.assemble(files, out_path, cfg.audio.gap_ms, cfg.audio.loudness_lufs, bitrate)
     info = audio.probe(out_path)
@@ -199,6 +199,9 @@ def finish_episode(plan: Plan, cfg: Config, files: list[Path], out_path: Path, l
     report = {"audio": str(out_path), "transcript": str(transcript), "duration_s": round(info["duration"], 1),
               "sample_rate": info["sample_rate"], "bit_rate": info["bit_rate"], "segments": len(files),
               "long_silences": silences, "credits_recorded": credits}
+    if account_credits is not None:
+        # Credits actually deducted from the account during this run (subscription counter delta).
+        report["credits_account_delta"] = account_credits
     ledger.append(event="episode_assembled", episode=plan.episode.slug, **{k: v for k, v in report.items()
                                                                             if k != "long_silences"})
     if episode_file is not None:
@@ -208,8 +211,9 @@ def finish_episode(plan: Plan, cfg: Config, files: list[Path], out_path: Path, l
         est = estimate(plan.segments, cfg.generation.model_id, cfg.cost.plan)
         ep.cost.estimated_credits = est.credits
         ep.cost.estimated_usd = round(est.usd_at_plan_rate, 2)
-        ep.cost.actual_credits = credits
-        ep.cost.actual_usd = round(est.usd_at_plan_rate * credits / est.credits, 2) if est.credits else None
+        actual = account_credits if account_credits is not None else credits
+        ep.cost.actual_credits = actual
+        ep.cost.actual_usd = round(est.usd_at_plan_rate * actual / est.credits, 2) if est.credits else None
         save_episode(ep, episode_file)
     return report
 

@@ -63,6 +63,13 @@ def cmd_validate(args, cfg) -> int:
     return 1 if errors else 0
 
 
+def _credits_used(client) -> int | None:
+    try:
+        return int(client.subscription().get("character_count"))
+    except Exception:  # noqa: BLE001 - usage measurement is best-effort; key may lack User read
+        return None
+
+
 def cmd_render(args, cfg) -> int:
     ep_file = _episode_file(args.episode)
     ep = load_episode(ep_file)
@@ -82,12 +89,15 @@ def cmd_render(args, cfg) -> int:
     ledger = Ledger(args.ledger)
     client = _client(args)
     try:
+        before = _credits_used(client) if plan.missing else None
         files = R.generate_segments(plan, cfg, client, ledger, confirm=args.yes)
+        after = _credits_used(client) if before is not None else None
     finally:
         client.close()
+    delta = after - before if before is not None and after is not None and after >= before else None
     name = f"{ep.slug}.sample.mp3" if sample else f"{ep.slug}.mp3"
     report = R.finish_episode(plan, cfg, files, out_root / ep.slug / name, ledger,
-                              None if sample else ep_file)
+                              None if sample else ep_file, account_credits=delta)
     _print_report(report)
     return 0
 
