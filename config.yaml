@@ -1,0 +1,34 @@
+podcast:
+  title: "The Marine Professional"
+  target_minutes: 15
+
+voices:
+  alex:
+    voice_id: ""          # paste the voice ID you chose in ElevenLabs (Voices -> ... -> Copy voice ID)
+    role: "Marine Engineering Specialist"
+  morgan:
+    voice_id: ""
+    role: "Marine Science and Operations Specialist"
+
+audio:
+  format: "mp3"
+  quality: "high"         # standard = mp3_44100_128 (all plans); high = mp3_44100_192 (Creator plan or above)
+  gap_ms: 350             # silence inserted between generated segments
+  loudness_lufs: -16      # podcast loudness target applied to the final file
+
+generation:
+  model_id: "eleven_v4"   # Text to Dialogue supports eleven_v4 and eleven_v3
+  language_code: "en"
+  max_chars_per_request: 1800   # ElevenLabs advises <= 2,000 characters per dialogue request
+  continuity: "previous_text"   # previous_text | request_ids | none
+  seed: null
+  settings:
+    stability: 0.5        # lower = more expressive, higher = steadier
+    similarity: 0.75
+
+cost:
+  plan: "creator"         # free | starter | creator | pro | scale | business (used for $ estimates only)
+  limits:
+    max_credits_per_run: 25000
+    max_credits_per_month: 120000
+    max_segments_per_run: 40

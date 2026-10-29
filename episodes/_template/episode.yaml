@@ -1,0 +1,28 @@
+# Episode file format. Copy this folder to episodes/epNNN-<slug>/ and fill it in,
+# or create it from a ChatGPT script with `mpod import`.
+number: 0
+title: "Episode title"
+slug: "episode-slug"            # used for output/<slug>/ and file names
+track: "Marine Engineering"     # curriculum track
+subject: "Shipboard electrical power"
+target_minutes: 15
+learning_objectives:
+  - "Explain ..."
+prerequisites:
+  - "Basic AC circuits"
+references:
+  - "Source title, publisher, year, URL"
+review_questions:
+  - "Why ...?"
+pronunciation_notes:            # for the listening review; spell tricky terms phonetically in the text if needed
+  - "CTD = C-T-D"
+status: draft                   # draft | validated | sample_rendered | rendering | rendered | approved | published
+audio_path: null                # filled in by `mpod render`
+cost: {}                        # estimated/actual credits and USD, filled in by `mpod render`
+dialogue:                       # spoken text only; one entry per turn, in order
+  - speaker: alex
+    section: "Opening"
+    text: "Welcome aboard ..."
+  - speaker: morgan
+    section: "Opening"
+    text: "..."
