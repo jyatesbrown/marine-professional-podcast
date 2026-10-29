@@ -35,13 +35,13 @@ pronunciation_notes:
 - kilovolt-amperes reactive
 - ship-service switchboard
 - synchronization / synchronism
-status: validated
-audio_path: null
+status: rendered
+audio_path: output/research-vessel-power/research-vessel-power.mp3
 cost:
-  estimated_credits: null
-  estimated_usd: null
-  actual_credits: null
-  actual_usd: null
+  estimated_credits: 15687
+  estimated_usd: 2.85
+  actual_credits: 6905
+  actual_usd: 1.26
 dialogue:
 - speaker: morgan
   text: Picture this. You're halfway through an offshore survey. The vessel is holding a steady course,
