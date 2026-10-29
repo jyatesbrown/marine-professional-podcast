@@ -12,7 +12,7 @@ voices:
 
 audio:
   format: "mp3"
-  quality: "standard"       # standard = mp3_44100_128 (all plans); high = mp3_44100_192 (Creator plan or above)
+  quality: "high"           # standard = mp3_44100_128 (all plans); high = mp3_44100_192 (Creator plan or above)
   gap_ms: 350             # silence inserted between generated segments
   loudness_lufs: -16      # podcast loudness target applied to the final file
 
